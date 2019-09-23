@@ -1,0 +1,29 @@
+def mars_projections_on_ecliptic_plane(triangulation_data_index_pair,earth_holicentric_longitude,mars_holicentric_longitude):
+    radiuslist=[]
+    projectiondegreelist=[]
+    for i in range(int(len(triangulation_data_index_pair)/2)):
+        bita1 = earth_holicentric_longitude[i * 2]
+        bita2 = earth_holicentric_longitude[i * 2 + 1]
+        alpha1 = mars_holicentric_longitude[i * 2]
+        alpha2 = mars_holicentric_longitude[i * 2 + 1]
+        b1=np.sin(degreetorad(bita1))-np.tan(degreetorad(alpha1))*np.cos(degreetorad(bita1))
+        b2 = np.sin(degreetorad(bita2)) - np.tan(degreetorad(alpha2)) * np.cos(degreetorad(bita2))
+        a1=1
+        a2=-1*np.tan(degreetorad(alpha1))
+        a3=1
+        a4=-1*np.tan(degreetorad(alpha2))
+        A=np.ndarray(shape=(2, 2), dtype=float)
+        A[0,0]=a1
+        A[0,1]=a2
+        A[1,0]=a2
+        A[1,1]=a3
+        b = np.ndarray(shape=(2, 1), dtype=float)
+        b[0,0]=b1
+        b[1,0]=b2
+        coordinatex = np.matmul(np.linalg.inv(A), b)[0, 0]
+        coordinatey = np.matmul(np.linalg.inv(A), b)[1, 0]
+        radius=np.sqrt(np.square(coordinatex)+np.square(coordinatey))
+        projectiondegree=np.arctan(coordinatey/coordinatex)
+        radiuslist.append(radius)
+        projectiondegreelist.append(projectiondegree)
+    print("Hello")
